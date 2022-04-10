@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+    <context:component-scan base-package="com.company"/>
+
+
+    <!--    REPOSITORIES  -->
+    <bean name="cardRepository1" class="com.company.repository.CardRepository">
+        <property name="dbConnection" ref="dbConnection1"/>
+    </bean>
+
+    <bean name="profileRepository1" class="com.company.repository.ProfileRepository">
+        <property name="dbConnection" ref="dbConnection1"/>
+    </bean>
+
+    <bean name="terminalRepository1" class="com.company.repository.TerminalRepository">
+        <property name="dbConnection" ref="dbConnection1"/>
+    </bean>
+
+    <bean name="transactionRepository1" class="com.company.repository.TransactionRepository">
+        <property name="dbConnection" ref="dbConnection1"/>
+    </bean>
+
+    <!--    CONTROLLERS  -->
+
+    <bean name="profileController1" class="com.company.controller.ProfileController">
+        <property name="mainController" ref="mainController1"/>
+        <property name="profileRepository" ref="profileRepository1"/>
+    </bean>
+
+    <bean name="cardController1" class="com.company.controller.CardController">
+        <property name="cardRepository" ref="cardRepository1"/>
+        <property name="cardService" ref="cardService1"/>
+        <property name="mainController" ref="mainController1"/>
+        <property name="transactionService" ref="transactionService1"/>
+    </bean>
+
+    <bean name="mainController1" class="com.company.controller.MainController">
+        <property name="cardController" ref="cardController1"/>
+        <property name="profileController" ref="profileController1"/>
+    </bean>
+
+    <bean name="terminalController1" class="com.company.controller.TerminalController">
+        <property name="terminalRepository" ref="terminalRepository1"/>
+        <property name="mainController" ref="mainController1"/>
+        <property name="terminalService" ref="terminalService1"/>
+    </bean>
+
+    <bean name="transactionController1" class="com.company.controller.TerminalController">
+        <property name="mainController" ref="mainController1"/>
+        <property name="terminalRepository" ref="terminalRepository1"/>
+        <property name="terminalService" ref="terminalService1"/>
+    </bean>
+
+    <!--    SERVICES  -->
+    <bean name="profileService1" class="com.company.service.ProfileService">
+        <property name="profileRepository" ref="profileRepository1"/>
+        <property name="mainController" ref="mainController1"/>
+
+    </bean>
+
+    <bean name="transactionService1" class="com.company.service.TransactionService">
+        <property name="transactionRepository" ref="transactionRepository1"/>
+        <property name="terminalRepository" ref="terminalRepository1"/>
+        <property name="cardRepository" ref="cardRepository1"/>
+    </bean>
+
+    <bean name="cardService1" class="com.company.service.CardService">
+        <property name="cardRepository" ref="cardRepository1"/>
+        <property name="mainController" ref="mainController1"/>
+        <property name="transactionService" ref="transactionService1"/>
+        <property name="transactionRepository" ref="transactionRepository1"/>
+        <property name="profileRepository" ref="profileRepository1"/>
+    </bean>
+
+    <bean name="terminalService1" class="com.company.service.TerminalService">
+        <property name="mainController" ref="mainController1"/>
+        <property name="terminalRepository" ref="terminalRepository1"/>
+    </bean>
+
+    <!--  MAIN and DATABASE  -->
+
+    <bean name="main1" class="com.company.Main">
+        <property name="mainController" ref="mainController1"/>
+    </bean>
+
+    <bean name="dbConnection1" class="com.company.db.DbConnection"/>
+
+
+</beans>
